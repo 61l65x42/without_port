@@ -1,25 +1,32 @@
-# without_port
+## without_port
 
-## Overview
-This project automates the configuration and deployment of containers running various software to connect to devices in a network where port modification is not possible. Currently, the implementation leverages Tor to facilitate secure and anonymous connections.
+### Overview
+This project sets up a Docker container running a Tor hidden service to remotely control a host device via SSH, without needing to modify network policies. More similar services will be added in the future to their own containers, apache avocado etc...
 
-## Features
-- **Automated Configuration**: Set up and run different containers with the necessary software to connect to devices in restricted networks.
-- **Tor Integration**: Use Tor hidden services to bypass network restrictions and enable secure connections without modifying ports.
-- **SSH Access**: Securely access devices using SSH over Tor.
+### Features
+- **Automated Configuration**: Easily set up and run containers with the required software.
+- **Tor Integration**: Bypass network restrictions using Tor hidden services.
+- **SSH Access**: Securely connect to devices via SSH over Tor.
 
-## Getting Started
+### Getting Started
 
-### Prerequisites
-- Docker installed on your machine.
+#### Prerequisites
+- Docker installed.
 - A GitHub repository with the necessary code and SSH key.
+
+
+### First generate the ssh key used for the authentication to the container, use this instead the password auth
+```bash
+ssh-keygen -t rsa -b 4096 -f dockertor_ssh_key
+cat dockertor_ssh_key.pub >> authorized_keys
+```
 
 ### Setup and Installation
 
 1. **Clone the Repository**
 ```bash
-   git clone https://github.com/yourusername/your-repo.git
-   cd your-repo
+   git clone https://github.com/61l65x/without_port.git
+   cd without_port
 ```
 2. **Build the Docker Image**
 + Ensure your Dockerfile and entrypoint.sh are properly set up in the repository.
@@ -33,6 +40,7 @@ docker run -d --name tor-ssh-container --network host tor-ssh
 ```
 4. **Access the Container and Use Git**
 + Access the running container and clone your Git repository using a specified SSH key.
++ Example if the repository allows interaction only from that certain ip address.
 ```bash
 docker exec -it tor-ssh-container /bin/bash
 GIT_SSH_COMMAND="ssh -i /root/.ssh/yourkey" git clone github.com/repo.git
