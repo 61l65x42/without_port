@@ -38,3 +38,10 @@ docker exec -it tor-ssh-container /bin/bash
 GIT_SSH_COMMAND="ssh -i /root/.ssh/yourkey" git clone github.com/repo.git
 ```
 
+5. **Connect to the .onion Service Using Torsocks**
+After setting up the Tor hidden service, you can connect to it using torsocks to ensure your connection is routed through the Tor network.
+
+```bash 
+torsocks ssh -i ./your_ssh_key root@youronionaddress.onion
+```
+
