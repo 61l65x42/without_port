@@ -38,18 +38,19 @@ docker build -t tor-ssh .
 ```bash
 docker run -d --name tor-ssh-container --network host tor-ssh
 ```
-4. **Access the Container and Use Git**
-+ Access the running container and clone your Git repository using a specified SSH key.
-+ Example if the repository allows interaction only from that certain ip address.
-```bash
-docker exec -it tor-ssh-container /bin/bash
-GIT_SSH_COMMAND="ssh -i /root/.ssh/yourkey" git clone github.com/repo.git
-```
 
-5. **Connect to the .onion Service Using Torsocks**
-After setting up the Tor hidden service, you can connect to it using torsocks to ensure your connection is routed through the Tor network.
+4. **Connect to the .onion Service Using Torsocks**
+After setting up the Tor hidden service, you can connect to it using torsocks to ensure your connection is routed through the Tor network and use the container remotely trough the tor, without touching network configurations.
+And example use of git in the container.
 
 ```bash 
 torsocks ssh -i ./your_ssh_key root@youronionaddress.onion
+GIT_SSH_COMMAND="ssh -i /root/.ssh/yourkey" git clone github.com/repo.git
 ```
 
+#### Problem solving
+
++ Launch  bash in the  container check if all the services are running and ok, tor, sshd. 
+```bash
+docker exec -it tor-ssh-container /bin/bash
+```
